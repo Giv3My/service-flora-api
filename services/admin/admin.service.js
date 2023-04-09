@@ -3,6 +3,7 @@ import { hash } from 'bcrypt';
 import { UserModel, CustomerModel } from '../../db/models/user/index.js';
 
 import { getUserDto } from '../../helpers/index.js';
+import ApiError from '../../errors/api.errors.js';
 
 export const createCustomer = async (user) => {
   const candidate = await UserModel.findOne({
@@ -10,7 +11,7 @@ export const createCustomer = async (user) => {
   });
 
   if (candidate) {
-    throw new Error('User with this email address already exists');
+    throw ApiError.BadRequest('User with this email address already exists');
   }
 
   const hashedPassword = await hash(user.password, 5);

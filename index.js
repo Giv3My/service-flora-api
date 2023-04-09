@@ -5,12 +5,13 @@ import dotenv from 'dotenv';
 
 import connectDB from './db/connectDB.js';
 
-import authRouter from './routes/auth/index.js';
-import rootAdminRouter from './routes/admin/root/index.js';
-import adminRouter from './routes/admin/index.js';
+import { authRouter, rootAdminRouter, adminRouter } from './routes/index.js';
 
-import authMiddleware from './middlewares/auth.middleware.js';
-import checkRolesMiddleware from './middlewares/checkRoles.middleware.js';
+import {
+  authMiddleware,
+  checkRolesMiddleware,
+  errorMiddleware,
+} from './middlewares/index.js';
 
 import { roles } from './helpers/constants/index.js';
 
@@ -32,6 +33,8 @@ app.use(
   adminRouter
 );
 app.use('/auth', authRouter);
+
+app.use(errorMiddleware);
 
 const start = async () => {
   try {

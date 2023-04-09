@@ -2,8 +2,10 @@ import * as authService from '../services/auth.service.js';
 import { getJwtPayload } from '../services/token.service.js';
 
 import { getRefreshTokenExpiration } from '../helpers/index.js';
+import { success } from '../helpers/constants/index.js';
+import ApiError from '../errors/api.errors.js';
 
-export const signIn = async (req, res) => {
+export const signIn = async (req, res, next) => {
   try {
     const user = await authService.signIn(req.body);
 
@@ -15,29 +17,29 @@ export const signIn = async (req, res) => {
       httpOnly: true,
     });
 
-    return res.status(200).json(user);
+    return res.status(success.ok).json(user);
   } catch (e) {
-    return res.status(400).send(e.message);
+    return next(e);
   }
 };
 
 export const logout = (req, res) => {
   res.clearCookie('refreshToken');
 
-  return res.sendStatus(200);
+  return res.sendStatus(success.noContent);
 };
 
-export const refreshTokens = (req, res) => {
+export const refreshTokens = (req, res, next) => {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken) {
-    return res.status(401).send('Refresh token has been expired');
+    return next(ApiError.UnauthorizedError('Refresh token has been expired'));
   }
 
   const tokens = authService.refreshTokens(refreshToken);
 
   if (!tokens) {
-    return res.status(401).send('Refresh token has been expired');
+    return next(ApiError.UnauthorizedError('Refresh token has been expired'));
   }
 
   const user = getJwtPayload(tokens.accessToken);
@@ -49,5 +51,5 @@ export const refreshTokens = (req, res) => {
     httpOnly: true,
   });
 
-  return res.status(200).json(tokens);
+  return res.status(success.ok).json(tokens);
 };

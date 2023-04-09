@@ -4,18 +4,19 @@ import { UserModel } from '../db/models/user/index.js';
 import * as tokenService from './token.service.js';
 
 import { getUserDto } from '../helpers/index.js';
+import ApiError from '../errors/api.errors.js';
 
 export const signIn = async ({ email, password }) => {
   const user = await UserModel.findOne({ email });
 
   if (!user) {
-    throw new Error('Incorrect email');
+    throw ApiError.BadRequest('Incorrect email');
   }
 
   const isPasswordCorrect = await compare(password, user.password);
 
   if (!isPasswordCorrect) {
-    throw new Error('Incorrect password');
+    throw ApiError.BadRequest('Incorrect password');
   }
 
   const tokens = tokenService.generateTokens({

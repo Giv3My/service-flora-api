@@ -1,14 +1,16 @@
+import ApiError from '../errors/api.errors.js';
+
 const checkRoleMiddleware = (roles) => (req, res, next) => {
   try {
     const user = req.user;
 
     if (!roles.includes(user.role)) {
-      return res.status(406).send('Your role is not suitable for this operation');
+      return next(ApiError.NotAcceptable('Your role is not suitable for this operation'));
     }
 
     next();
   } catch (e) {
-    return res.status(406).send('Your role is not suitable for this operation');
+    return next(ApiError.NotAcceptable('Your role is not suitable for this operation'));
   }
 };
 

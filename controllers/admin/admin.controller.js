@@ -1,11 +1,13 @@
 import * as adminService from '../../services/admin/admin.service.js';
 
-export const createCustomer = async (req, res) => {
+import { success } from '../../helpers/constants/index.js';
+
+export const createCustomer = async (req, res, next) => {
   try {
     const user = await adminService.createCustomer(req.body);
 
-    return res.status(200).json(user);
+    return res.status(success.created).json(user);
   } catch (e) {
-    return res.status(400).send(e.message);
+    return next(e);
   }
 };
