@@ -32,7 +32,7 @@ export const signIn = async ({ email, password }) => {
   };
 };
 
-export const refreshTokens = () => {
+export const refreshTokens = (token) => {
   const user = tokenService.validateRefreshToken(token);
 
   if (!user) {

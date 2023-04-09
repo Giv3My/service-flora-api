@@ -12,7 +12,7 @@ import adminRouter from './routes/admin/index.js';
 import authMiddleware from './middlewares/auth.middleware.js';
 import checkRolesMiddleware from './middlewares/checkRoles.middleware.js';
 
-import { roles } from './helpers/constants/roles.js';
+import { roles } from './helpers/constants/index.js';
 
 dotenv.config();
 

@@ -1,6 +1,6 @@
 import { AdminDto, CustomerDto } from '../dtos/user.dto.js';
 
-import { roles } from './constants/roles.js';
+import { roles } from './constants/index.js';
 
 export const getUserDto = (user) => {
   switch (user.role) {

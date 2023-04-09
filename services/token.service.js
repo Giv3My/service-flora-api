@@ -7,7 +7,7 @@ dotenv.config();
 
 export const generateTokens = (payload) => {
   const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: '1h',
+    expiresIn: process.env.JWT_ACCESS_EXP,
   });
 
   const { jwtExp: expiresIn } = getRefreshTokenExpiration(payload.role);
