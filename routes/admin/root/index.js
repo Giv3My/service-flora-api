@@ -5,6 +5,5 @@ import * as rootAdminController from '../../../controllers/admin/rootAdmin.contr
 const router = express.Router();
 
 router.post('/create-admin', rootAdminController.createAdmin);
-// router.post('/create-root', adminController.createRootAdmin);
 
 export default router;

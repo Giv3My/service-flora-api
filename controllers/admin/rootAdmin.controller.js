@@ -11,13 +11,3 @@ export const createAdmin = async (req, res, next) => {
     return next(e);
   }
 };
-
-// export const createRootAdmin = async (req, res, next) => {
-//   try {
-//     const admin = await userService.createRootAdmin(req.body);
-
-//     return res.status(200).json(admin);
-//   } catch (e) {
-//     return next(e);
-//   }
-// };
